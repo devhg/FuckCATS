@@ -7,13 +7,13 @@
 - [ ] 专题1：进程调度PV操作
 - [x] 专题2：[时间片轮转调度算法RR q=x](subject-2-RR)
 - [x] *专题3：[银行家算法](subject-3-Banker)
-- [ ] 专题4：[页面置换算法 Clock](subject-4-Clock)
-- [ ] 专题5：磁盘调度算法
+- [x] 专题4：[页面置换算法 Clock](subject-4-Clock)
+- [x] 专题5：[磁盘调度算法](subject-5-Disk)
   - [ ] SCAN
   - [ ] CSCAN
-  - [ ] N-Step-SCAN
-  - [ ] N-Step-CSCAN
-- [ ] 专题6：文件索引
+  - [x] N-Step-SCAN
+  - [x] N-Step-CSCAN
+- [x] 专题6：[文件索引](subject-6-FileIndex)
 - [ ] 专题7：
 - [ ] 专题8：基本概念
 

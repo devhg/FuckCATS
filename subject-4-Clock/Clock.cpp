@@ -1,3 +1,10 @@
+/**
+ * author: QXQZX
+ * date: 2020/5/12 12:44
+ * description: Clockç®—æ³•å®ç°
+ * License: MIT
+ * other: FuckCATS plan
+ **/
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -6,190 +13,148 @@
 #include <map>
 #include <set>
 #define N 200
+#define rep(i, a, b) for (int i = a; i <= b; i++)
 using namespace std;
 
-int page[N];     //Ò³ÃæÒıÓÃºÅ
-int block[N];    //ÎïÀí¿é£¬ÄÚ´æ
-int dist[N][N];  //±íÊ¾µÚi´Î·ÃÎÊÄÚ´æµÄÊ±ºò£¬ÄÚ´æÖĞµÄÒ³Ãæj ÔÚÒÔºó±»·ÃÎÊµÄ×îĞ¡Ê±¼ä
+struct node {
+    int index;
+    int page;
+    int status;
+};
+int PR[N];
+int RS[N];
+node ram[10];
+node _ram[10][N];
+node *p = NULL;
+int frame;   // ç‰©ç†å—ä¸ªæ•°
+int _page;   // å·²è£…å…¥å†…å­˜çš„é¡µé¢ä¸ªæ•°
+int rs_num;  // é¡µé¢åºåˆ—ä¸ªæ•°
+int PF_NUM, PR_NUM;
 
-int n;         //Ò³ÃæÒıÓÃºÅ¸öÊı
-int m;         //ÎïÀí¿éÊıÄ¿
-int page_max;  //×î´óÒ³ÃæºÅ
-
-int pre[N];  // page[i]ÔÚpageÖĞµÄË÷Òı
-int opt() {  //×î¼ÑÒ³ÃæÖÃ»»Ëã·¨
-    int page_lack = 0;
-    memset(pre, 0, sizeof(pre));
-    memset(dist, 0x3f, sizeof(dist));
-    memset(block, -1, sizeof(block));
-    for (int i = n; i >= 1; --i) {
-        for (int j = 0; j <= page_max; ++j)
-            if (pre[j]) dist[i][j] = pre[j] - i;
-        pre[page[i]] = i;
-    }
-
-    for (int i = 1; i <= n; ++i) {  //¿ªÊ¼·ÃÎÊÒ³Ãæ£¬³õÊ¼ÊÇÄÚ´æÖĞÃ»ÓĞ·ÖÒ³
-        int j;
-        int max_dist = 0, p;
-        for (j = 1; j <= m; ++j) {
-            if (block[j] == -1) {  //¸Ä¿éÃ»ÓĞ·ÅÈëÒ³Ãæ£¬ÔòÖ±½Ó·ÅÈë, ²úÉúÈ±Ò³
-                block[j] = page[i];
-                cout << "Ò³Ãæ" << page[i] << "²»ÔÚÄÚ´æ£¬Ö±½Ó·ÅÈëÎïÀí¿é" << j
-                     << "ÖĞ!" << endl;
-                page_lack++;
+void clock() {
+    rep(i, 0, rs_num - 1) {
+        int flag = 0;
+        rep(j, 1, frame) {
+            if (ram[j].page == RS[i]) {
+                ram[j].status = 1;
+                flag = 1;
                 break;
-            } else if (block[j] == page[i])  //Ò³Ãæ´æÔÚÄÚ´æÖĞ
-                break;
-
-            if (max_dist < dist[i][block[j]]) {
-                max_dist = dist[i][block[j]];  //ËµÃ÷block[j]
-                                               //¶ÔÓ¦µÄÒ³ÃæÒÔºó»á³¤Ê±¼ä²»»áÓÃµ½
-                p = j;  // block[] µÚj¸öÒ³Ãæ»á±»Ìæ»»µô
             }
         }
-        if (j >
-            m) {  //´ËÊ±ÄÚ´æÖĞ²»ÄÜÔÚ·ÅÈëĞÂµÄ·ÖÒ³£¬¶øÇÒÃ»ÓĞÕÒµ½page[i]¶ÔÓ¦µÄ·ÖÒ³£¬½ÓÏÂÀ´½øĞĞÒ³ÃæÌæ»»
-            cout << "Ò³Ãæ" << page[i] << "²»ÔÚÄÚ´æ£¬½«ÎïÀí¿é" << p << "ÖĞµÄÒ³Ãæ"
-                 << block[p] << "Ìæ»»µô!" << endl;
-            block[p] = page[i];
-            page_lack++;
-        }
-        cout << endl << "µ±Ç°ÄÚ´æÖĞÒ³ÃæµÄÇé¿ö:" << endl;
-        for (int k = 1; k <= m; ++k)  //ÄÚ´æÖĞÒ³Ãæ¼ÓÔØÇé¿ö
-            cout << block[k] << " ";
-        cout << endl << endl;
-    }
-    return page_lack;  //·µ»ØÈ±Ò³´ÎÊı
-}
-
-int lru() {  //×î½ü×î¾ÃÎ´Ê¹ÓÃËã·¨ºÍoptËã·¨²î²»¶à£¬Ö»²»¹ıÊÇlruÊÇÏòÇ°¿´£¬
-             //optÊÇÏòºó¿´
-    int page_lack = 0;
-    memset(pre, 0, sizeof(pre));
-    memset(dist, 0x3f, sizeof(dist));
-    memset(block, -1, sizeof(block));
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 0; j <= page_max; ++j)
-            if (pre[j]) dist[i][j] = i - pre[j];
-        pre[page[i]] = i;
-    }
-
-    for (int i = 1; i <= n; ++i) {  //¿ªÊ¼·ÃÎÊÒ³Ãæ£¬³õÊ¼ÊÇÄÚ´æÖĞÃ»ÓĞ·ÖÒ³
-        int j;
-        int max_dist = 0, p;
-        for (j = 1; j <= m; ++j) {
-            if (block[j] == -1) {  //¸Ä¿éÃ»ÓĞ·ÅÈëÒ³Ãæ£¬ÔòÖ±½Ó·ÅÈë, ²úÉúÈ±Ò³
-                block[j] = page[i];
-                cout << "Ò³Ãæ" << page[i] << "²»ÔÚÄÚ´æ£¬Ö±½Ó·ÅÈëÎïÀí¿é" << j
-                     << "ÖĞ!" << endl;
-                page_lack++;
-                break;
-            } else if (block[j] == page[i])  //Ò³Ãæ´æÔÚÄÚ´æÖĞ
-                break;
-
-            if (max_dist < dist[i][block[j]]) {
-                max_dist = dist[i][block[j]];  //ËµÃ÷block[j]
-                                               //¶ÔÓ¦µÄÒ³ÃæÒÔºó»á³¤Ê±¼ä²»»áÓÃµ½
-                p = j;  // block[] µÚj¸öÒ³Ãæ»á±»Ìæ»»µô
-            }
-        }
-        if (j >
-            m) {  //´ËÊ±ÄÚ´æÖĞ²»ÄÜÔÚ·ÅÈëĞÂµÄ·ÖÒ³£¬¶øÇÒÃ»ÓĞÕÒµ½page[i]¶ÔÓ¦µÄ·ÖÒ³£¬½ÓÏÂÀ´½øĞĞÒ³ÃæÌæ»»
-            cout << "Ò³Ãæ" << page[i] << "²»ÔÚÄÚ´æ£¬½«ÎïÀí¿é" << p << "ÖĞµÄÒ³Ãæ"
-                 << block[p] << "Ìæ»»µô!" << endl;
-            block[p] = page[i];
-            page_lack++;
-        }
-        cout << endl << "µ±Ç°ÄÚ´æÖĞÒ³ÃæµÄÇé¿ö:" << endl;
-        for (int k = 1; k <= m; ++k)  //ÄÚ´æÖĞÒ³Ãæ¼ÓÔØÇé¿ö
-            cout << block[k] << " ";
-        cout << endl << endl;
-    }
-    return page_lack;  //·µ»ØÈ±Ò³´ÎÊı
-}
-
-set<int> page_set;
-int fifo() {  //ÏÈ½øÏÈ³öÒ³ÃæÖÃ»»Ëã·¨
-    int page_lack = 0;
-    memset(block, -1, sizeof(block));
-    int index = 1;
-    for (int i = 1; i <= n; ++i) {
-        if (index > m) index = 1;
-        set<int>::iterator it;
-        it = page_set.find(page[i]);
-        if (it == page_set.end()) {
-            if (block[index] != -1) page_set.erase(block[index]);
-            page_set.insert(page[i]);
-            block[index++] = page[i];
-            ++page_lack;
-        }
-        for (int k = 1; k <= m; ++k) cout << block[k] << " ";
-        cout << endl;
-    }
-    return page_lack;
-}
-
-int nru[N];            //±íÊ¾ ÎïÀí¿é i ×î½üÊ±ºò±»·ÃÎÊ¹ı
-int page_in_block[N];  //Ò³Ãæ i ÔÚ blockµÄÏÂ±êË÷Òı
-int clock() {
-    int index = 1;
-    int page_lack = 0;
-    memset(block, -1, sizeof(block));
-    for (int i = 1; i <= n; ++i) {
-        if (page_in_block[page[i]]) {  //Èç¹ûpage[i]ÒÑ¾­ÔÚÄÚ´æÖĞ
-            nru[page_in_block[page[i]]] =
-                1;  //ÖØĞÂ±ê¼ÇÕâ¸öÎïÀí¿éÖĞµÄÒ³Ãæ±»·ÃÎÊ¹ıÁË
-            cout << endl
-                 << "µÚ" << i << "´Î: Ò³Ãæ" << page[i] << "ÒÑ¾­´æÔÚÎïÀí¿é"
-                 << page_in_block[page[i]] << "ÖĞ!" << endl;
-        } else {
-            while (true) {
-                if (index > m) index = 1;
-                if (block[index] == -1) {
-                    nru[index] = 1;
-                    page_in_block[page[i]] = index;
-                    block[index++] = page[i];
-                    ++page_lack;
-                    break;
-                }
-                if (block[index] == page[i]) {
-                    nru[index++] = 1;
-                    break;
-                } else {
-                    if (nru[index] == 0) {  //Ìæ»»¸ÃÒ³Ãæ
-                        nru[index] = 1;
-                        page_in_block[block[index]] = 0;
-                        cout << endl
-                             << "µÚ" << i << "´Î: ÎïÀí¿é" << index << "ÖĞµÄÒ³Ãæ"
-                             << block[index] << "×î½üÎ´±»Ê¹ÓÃ£¬½«Òª±»Ò³Ãæ"
-                             << page[i] << "Ìæ»»!" << endl;
-                        page_in_block[page[i]] = index;
-                        block[index++] = page[i];
-                        ++page_lack;
-                        break;
-                    } else
-                        nru[index++] = 0;
+        if (flag == 1) continue;
+        int k = p->index;
+        while (1) {
+            if (ram[k].status == -1) {
+                ram[k].page = RS[i];
+                ram[k].status = 1;
+                flag = 1;
+                PF_NUM++;  // é¡µé¢ä¸­æ–­æ¬¡æ•°++
+            } else {
+                if (ram[k].status == 1) {
+                    ram[k].status = 0;
+                } else if (ram[k].status == 0) {
+                    PR[i] = ram[k].page;
+                    ram[k].page = RS[i];
+                    // cout << RS[i] << "***" << PR[i] << endl;
+                    ram[k].status = 1;
+                    flag = 1;
+                    PF_NUM++;  // é¡µé¢ä¸­æ–­æ¬¡æ•°++
+                    PR_NUM++;  // é¡µé¢ç½®æ¢æ¬¡æ•°++
                 }
             }
+            if (k == frame) {
+                p = &ram[1];
+            } else {
+                p = &ram[k + 1];
+            }
+            k = p->index;
+            // cout << "p " << p->index << endl;
+            if (flag == 1) break;
         }
-        for (int k = 1; k <= m; ++k) cout << block[k] << " ";
+        rep(j, 1, frame) {
+            if (ram[j].page == -1) {
+                // cout << ram[j].index << " "
+                //      << " "
+                //      << "-"
+                //      << " " << endl;
+            } else {
+                _ram[j][i].page = ram[j].page;
+                _ram[j][i].status = ram[j].status;
+                _ram[j][i].index = ram[j].index;
+                // cout << ram[j].index << " " << ram[j].page << "-"
+                //      << ram[j].status << endl;
+            }
+        }
+    }
+}
+void init_data() {
+    PR_NUM = PF_NUM = 0;
+    // cout << "test" << PF_NUM << PR_NUM << endl;
+    rep(i, 0, N - 1) {
+        PR[i] = -1;
+        RS[i] = -1;
+    }
+    rep(i, 1, 9) {
+        ram[i].index = i;
+        ram[i].page = ram[i].status = -1;
+        rep(j, 0, N - 1) {
+            _ram[i][j].page = _ram[i][j].status = _ram[i][j].index = -1;
+        }
+    }
+}
+void init() {
+    cout << "Clock é¡µé¢ç½®æ¢ç®—æ³•å®ç°" << endl;
+    init_data();
+    cout << "è¯·è¾“å…¥è¿›ç¨‹ç‰©ç†å—ä¸ªæ•°ï¼š";
+    cin >> frame;
+    cout << "è¯·è¾“å…¥å·²è£…å…¥å†…å­˜çš„ç•Œé¢ä¸ªæ•°ï¼š";
+    cin >> _page;
+    rep(i, 1, _page) {
+        cout << "è¯·è¾“å…¥å·²è£…å…¥å†…å­˜çš„ç•Œé¢ P AçŠ¶æ€(ç©ºæ ¼éš”å¼€)ï¼š";
+        cin >> ram[i].page >> ram[i].status;
+    }
+    int pp;
+    cout << "æŒ‡å‘é«˜åœ°å€ è¾“å…¥1 ä½åœ°å€ è¾“å…¥0ï¼š";
+    cin >> pp;
+    p = (pp == 1) ? &ram[frame] : &ram[1];
+    cout << "è¯·è¾“å…¥RSåºåˆ— -1ç»“æŸï¼š";
+    int temp;
+    rs_num = 0;
+    while (cin >> temp && temp != -1) {
+        RS[rs_num++] = temp;
+    }
+}
+void show() {
+    cout << "################### chart show #################" << endl;
+
+    rep(i, 0, rs_num - 1) {
+        if (PR[i] != -1) {
+            cout << PR[i] << " ";
+        } else
+            cout << "  ";
+    }
+    cout << endl;
+    rep(i, 0, rs_num - 1) { cout << RS[i] << " "; }
+    cout << endl;
+    rep(j, 1, frame) {
+        rep(i, 0, rs_num - 1) {
+            if (_ram[j][i].index == -1) {
+                cout << "  ";
+            } else {
+                cout << _ram[j][i].page << " ";
+            }
+        }
         cout << endl;
     }
-    return page_lack;
+    cout << "################################################" << endl;
+    cout << "PF: " << PF_NUM << endl;
+    cout << "PR: " << PR_NUM << endl;
+    rep(j, 1, frame) { cout << ram[j].page << "-" << ram[j].status << ","; }
+    cout << endl;
 }
-
 int main() {
-    cin >> n >> m;
-    for (int i = 1; i <= n; ++i) {
-        cin >> page[i];
-        page_max = max(page_max, page[i]);
-    }
-    cout << "optÈ±Ò³ÖĞ¶Ï´ÎÊı:" << opt() << endl;
-    cout << "***********************************" << endl;
-    cout << "lruÈ±Ò³ÖĞ¶Ï´ÎÊı:" << lru() << endl;
-    cout << "***********************************" << endl;
-    cout << "fifoÈ±Ò³ÖĞ¶Ï´ÎÊı:" << fifo() << endl;
-    cout << "***********************************" << endl;
-    cout << "clockÈ±Ò³ÖĞ¶Ï´ÎÊı:" << clock() << endl;
+    init();
+    clock();
+    show();
     return 0;
 }
