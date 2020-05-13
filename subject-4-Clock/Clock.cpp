@@ -114,7 +114,7 @@ void init() {
         cin >> ram[i].page >> ram[i].status;
     }
     int pp;
-    cout << "指向高地址 输入1 低地址 输入0：";
+    cout << "指向高地址 (输入1) 指向低地址 (输入0)：";
     cin >> pp;
     p = (pp == 1) ? &ram[frame] : &ram[1];
     cout << "请输入RS序列 -1结束：";

@@ -34,11 +34,11 @@ int main() {
     cin >> b;
     cout << "请输入二级间接地址索引个数" << endl;
     cin >> c;
-    cout << "请输入每个地址项大小" << endl;
+    cout << "请输入每个地址项大小(Byte)" << endl;
     cin >> d;
     cout << "请输入磁盘ID占位数" << endl;
     cin >> e;
-    cout << "请输入磁盘索引块（磁盘数据块）大小" << endl;
+    cout << "请输入磁盘索引块（磁盘数据块）大小(Byte)" << endl;
     cin >> f;
     cout << "结果:" << endl;
     long double i = a * f, j = b * f * (f / d), k = c * f * (f / d) * (f / d),

@@ -1,7 +1,7 @@
 /**
  * author: jk1804匿名同学
  * date: 2020/5/12 12:44
- * description: 磁盘调度算法实现 N-Step-SCAN N-Step-CSCAN
+ * description: 磁盘调度算法实现 N-Step-SCAN N-Step-CSCAN SCAN CSCAN
  * License: MIT
  * other: FuckCATS plan
  **/
@@ -13,6 +13,7 @@ using namespace std;
 int main() {
     int n, a[50], y[50], m, p, i, j, b, c, d, u, o, h, k, v;
     double g, w;
+    cout << "磁盘调度算法实现 N-Step-SCAN N-Step-CSCAN SCAN CSCAN" << endl;
     cout << "请输入依次输入题目中已访问的进程和正在访问的进程" << endl;
     cin >> u >> o;
     if (o > u)
@@ -21,7 +22,9 @@ int main() {
         c = 0;
     cout << "scan算法请输入0,cscan算法请输入1" << endl;
     cin >> p;
-    cout << "请输入N(n-scan, n-cscan)的N" << endl;
+    cout << "请输入N(n-scan, n-cscan)的N $(若进行SCAN CSCAN运算 "
+            "N输入磁道号队列个数)"
+         << endl;
     cin >> n;
     cout << "请输入磁道号队列个数" << endl;
     cin >> m;
@@ -180,7 +183,7 @@ int main() {
                 w = w + y[i] - y[i - 1];
         }
         g = w / m;
-        cout << " ASL= " << w << "/" << m << " = " << g;
+        cout << "ASL= " << w << "/" << m << " = " << g;
     } else {
         h = 0;
         k = 0;
@@ -297,7 +300,7 @@ int main() {
                 w = w + y[i] - y[i - 1];
         }
         g = w / m;
-        cout << " ASL= " << w << "/" << m << " = " << g;
+        cout << "ASL= " << w << "/" << m << " = " << g;
     }
     return 0;
 }

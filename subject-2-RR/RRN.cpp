@@ -1,4 +1,16 @@
-#include <bits/stdc++.h>
+/**
+ * author: QXQZX
+ * date: 2020/5/13 12:35
+ * description: 时间片轮转调度算法RR q=x 修改自群友
+ * License: MIT
+ * other: FuckCATS plan
+ **/
+// #include <bits/stdc++.h>
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+#include <queue>
+#include <vector>
 using namespace std;
 #define io ios::sync_with_stdio(0)
 #define rep(i, a, b) for (int i = a; i <= b; i++)
@@ -19,6 +31,7 @@ int n;
 int cmp(int a, int b) { return finit[a] < finit[b]; }
 int main() {
     // io;
+    cout << "RR算法代码实现" << endl;
     cout << "请输入进程个数：";
     cin >> n;
     cout << "请输入时间片q：";
@@ -45,11 +58,6 @@ int main() {
         }
         if (t.se != st[t.fi]) q.push(t);
     }
-    /*   for (auto &i : ans)
-       {
-           cout << "P" << i << " ";
-       }*/
-    //  cout << endl;
     cout << "Total time: " << ti << endl;
     cout << "Gantt chart如下：" << endl;
     ti = 0;
@@ -81,15 +89,10 @@ int main() {
         wr[i] = tt[i] * 1.0 / st[i];
         avtt += 1.0 * tt[i] / n;
         avwr += 1.0 * wr[i] / n;
-        // cout << i << "\t\t" << finit[i] << "\t          " << at[i] << "\t "
-        // << tt[i] << "\t                 " << st[i] << "\t    "
-        // ;printf("%.2f\n",wr[i]);
     }
     int tmp[200];
     rep(i, 1, n) tmp[i] = i;
     sort(tmp + 1, tmp + 1 + n, cmp);
-    // rep(i, 1, n) cout << tmp[i] << " ";
-    // cout << endl;
     rep(j, 1, n) {
         int i = tmp[j];
         cout << "P" << i << "\t\t" << finit[i] << "\t          " << at[i]

@@ -1,3 +1,10 @@
+/**
+ * author: QXQZX
+ * date: 2020/5/13 12:34
+ * description: 银行家算法实现 修改自网络
+ * License: MIT
+ * other: FuckCATS plan
+ **/
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -54,12 +61,12 @@ int Init() {
     }
     cout << "请分别输入资源个数和进程个数，中间用空格隔开：" << endl;
     cin >> n_resource >> n_process;
-    cout << "请输入各个资源的总拥有量：" << endl;
+    cout << "请输入各个资源的总拥有量(Resource)：" << endl;
     for (int i = 0; i < n_resource; i++) cin >> Resource[i];
     for (int i = 0; i < n_process; i++) {
-        cout << "P" << i << "对各个资源的最大需求量：" << endl;
+        cout << "P" << i << "对各个资源的最大需求量(Max)：" << endl;
         for (int j = 0; j < n_resource; j++) cin >> Max[i][j];
-        cout << "P" << i << "各个资源已分配量：" << endl;
+        cout << "P" << i << "各个资源已分配量(Allocation)：" << endl;
         for (int j = 0; j < n_resource; j++) cin >> Allocation[i][j];
         for (int j = 0; j < n_resource; j++)
             Need[i][j] = Max[i][j] - Allocation[i][j];
@@ -115,9 +122,9 @@ bool Safecheck() {
 int Order() {
     int n = -1;                          //请求资源的进程号
     int *Request = new int[n_resource];  //表示请求的各个资源数量
-    cout << "请输入你要请求的进程号(第一个满足条件的进程Need)：";
+    cout << "请输入第一个满足条件的进程Need(各资源均小于Available)的进程号：";
     cin >> n;
-    cout << "请输入你要请求各个资源的数量，中间用空格隔开：" << endl;
+    cout << "请输入满足条件进程Need各资源的数量 空格隔开：" << endl;
     for (int i = 0; i < n_resource; i++) cin >> Request[i];
 
     //开始判断
@@ -171,7 +178,7 @@ void Display() {
         for (int j = 0; j < n_resource; j++) {
             cout << Allocation[i][j] << " ";
         }
-        cout << "\t";
+        cout << "\t   ";
         for (int j = 0; j < n_resource; j++) {
             cout << Need[i][j] << " ";
         }
@@ -185,11 +192,11 @@ void Display() {
 }
 
 void ShowTable() {
-    cout << "Progress\t"
-         << "Work\t"
-         << "Need\t"
-         << "Allocation\t"
-         << "W + A\t"
+    cout << "Prog*\t\t"
+         << "Work\t\t"
+         << "Need\t\t"
+         << "Allo*\t\t"
+         << "W + A\t\t"
          << "Finish" << endl;
     for (int k = 0; k < Safeorder.size(); k++) {
         cout << "P" << Safeorder.at(k) << "\t";
@@ -197,20 +204,20 @@ void ShowTable() {
         for (int j = 0; j < n_resource; j++) {
             cout << Available[j] << " ";
         }
-        cout << "\t";
+        cout << "\t\t";
         for (int j = 0; j < n_resource; j++) {
             cout << Need[i][j] << " ";
         }
-        cout << "\t";
+        cout << "\t\t";
         for (int j = 0; j < n_resource; j++) {
             cout << Allocation[i][j] << " ";
             Available[j] += Allocation[i][j];
         }
-        cout << "\t";
+        cout << "\t\t";
         for (int j = 0; j < n_resource; j++) {
             cout << Available[j] << " ";
         }
-        cout << "\t"
+        cout << "\t\t"
              << "true" << endl;
     }
     cout << "End" << endl;
