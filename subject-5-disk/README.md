@@ -9,9 +9,9 @@
 
 
 
-#### 过程展示
+### 过程展示
 
-**N-Step-SCAN N-Step-CSCAN**
+##### N-Step-SCAN N-Step-CSCAN
 
 ```shell
 磁盘调度算法实现 N-Step-SCAN N-Step-CSCAN SCAN CSCAN 
@@ -31,9 +31,9 @@ ASL= 806/22 = 36.6364
 
 
 
-**SCAN CSCAN **
+##### SCAN CSCAN
 
-关于N(N输入和磁道号个数相同)
+关于N(N输入和磁道号队列个数相同)
 
 ```shell
 磁盘调度算法实现 N-Step-SCAN N-Step-CSCAN SCAN CSCAN
