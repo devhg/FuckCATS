@@ -9,10 +9,19 @@
 3. 申请资源并生成安全序列(生成下方表格)：过程中需要手动输入第一个满足要求的Need的进程号(int)和各资源数量
 
 
+
+
 #### 过程展示
 
 ![in](https://i.loli.net/2020/05/13/kyCE7joFiYgazLB.png)
 ![out](https://i.loli.net/2020/05/13/sK75imRCUVLFeZD.png)
 
+#### 学习资料
+
+[银行家算法](Banker.md)
+
+
+
 #### 其他
+
 来源自：仓库所有者

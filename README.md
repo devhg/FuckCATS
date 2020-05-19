@@ -1,5 +1,8 @@
 ## SDUT  操作系统课程 CATS考试工具  部分专题测试代码实现
 
+![123.png](https://i.loli.net/2020/05/19/g6mZfb9Brj4PESc.png)
+
+
 
 ### 专题列表
 
@@ -13,8 +16,6 @@
   - [x] N-Step-SCAN
   - [x] N-Step-CSCAN
 - [x] 专题6：[文件索引](subject-6-FileIndex)
-- [ ] 专题7：
-- [ ] 专题8：基本概念
 
 
 
