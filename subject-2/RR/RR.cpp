@@ -143,9 +143,5 @@ int main() {
         job[i].Tservice = service;
     }
     display(num);
-    // print(num);
-    // for (int k = 0; k < Safeorder.size(); k++) {
-    //     cout << "P" << Safeorder.at(k) << "\t";
-    // }
     return 0;
 }

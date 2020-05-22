@@ -7,9 +7,13 @@
 ### 专题列表
 
 - [x] 专题1：[进程调度PV操作](subject-1-PV)
-- [x] 专题2：[时间片轮转调度算法RR q=x](subject-2-RR)
+- [x] 专题2：[作业调度算法](subject-2)
+  - [x] FCFS
+  - [x] HRRN
+  - [x] SJF(SPF)
+  - [x] RR q=x
 - [x] *专题3：[银行家算法](subject-3-Banker)
-- [x] 专题4：[页面置换算法 Clock](subject-4-Clock)
+- [x] *专题4：[页面置换算法 Clock](subject-4)
 - [x] 专题5：[磁盘调度算法](subject-5-disk)
   - [x] SCAN
   - [x] CSCAN
