@@ -116,7 +116,7 @@ void init() {
     int pp;
     cout << "指向高地址 (输入1) 指向低地址 (输入0)：";
     cin >> pp;
-    p = (pp == 1) ? &ram[frame] : &ram[1];
+    p = (pp == 1) ? &ram[frame - 1] : &ram[1];
     cout << "请输入RS序列 -1结束：";
     int temp;
     rs_num = 0;
